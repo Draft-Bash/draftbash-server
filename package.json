@@ -1,21 +1,30 @@
 {
-  "name": "draftbash-server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node dist/app.js",
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.18.2",
-    "typescript": "^5.3.3"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.21"
-  }
+    "name": "draftbash-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node dist/app.js",
+        "build": "tsc",
+        "dev": "nodemon src/app.ts",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prisma": "prisma"
+    },
+    "prisma": {
+        "schema": "src/database/schema.prisma"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@prisma/client": "^5.7.1",
+        "express": "^4.18.2",
+        "prisma": "^5.7.1",
+        "typescript": "^5.3.3"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "nodemon": "^3.0.2",
+        "ts-node": "^10.9.2"
+    }
 }
