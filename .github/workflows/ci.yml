@@ -1,25 +1,25 @@
 name: Build and Test
 
 on:
-  pull_request:
-    branches:
-      - main
+    pull_request:
+        branches:
+            - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
 
-      - name: Build Docker image
-        run: docker build -t merge-image .
+            - name: Build Docker image
+              run: docker build -t merge-image .
 
-      - name: Run tests in Docker container
-        run: docker run merge-image npm test
+            - name: Run tests in Docker container
+              run: docker run merge-image npm test
 
-      - name: ESLint and Prettier check
-        run: |
-          docker run merge-image npm run lint  # Run ESLint
-          docker run merge-image npm run format:check  # Check Prettier formatting
+            - name: ESLint and Prettier check
+              run: |
+                  docker run merge-image npm run lint  # Run ESLint
+                  docker run merge-image npm run format:check  # Check Prettier formatting

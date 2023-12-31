@@ -1,37 +1,37 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: devpassword
-      POSTGRES_DB: draftbash
-    ports:
-      - "5432:5432"
-    networks:
-      - app-network
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
+    postgres:
+        image: postgres:latest
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: devpassword
+            POSTGRES_DB: draftbash
+        ports:
+            - '5432:5432'
+        networks:
+            - app-network
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
 
-  express-app:
-    image: node:latest
-    working_dir: /usr/src/app
-    command: bash -c "./shell-scripts/prisma-migrate.sh && npm install && npm run dev"
-    volumes:
-      - .:/usr/src/app
-    depends_on:
-      - postgres
-    ports:
-      - "3000:3000"
-    environment:
-      DATABASE_URL: postgresql://postgres:devpassword@postgres:5432/draftbash?schema=public
-    networks:
-      - app-network
+    express-app:
+        image: node:latest
+        working_dir: /usr/src/app
+        command: bash -c "./shell-scripts/prisma-migrate.sh && npm install && npm run dev"
+        volumes:
+            - .:/usr/src/app
+        depends_on:
+            - postgres
+        ports:
+            - '3000:3000'
+        environment:
+            DATABASE_URL: postgresql://postgres:devpassword@postgres:5432/draftbash?schema=public
+        networks:
+            - app-network
 
 networks:
-  app-network:
-    driver: bridge
+    app-network:
+        driver: bridge
 
 volumes:
-  postgres-data:
+    postgres-data:
