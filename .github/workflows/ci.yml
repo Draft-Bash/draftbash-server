@@ -14,7 +14,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docker image
-        run: docker build -t my-image .
+        run: docker build -t merge-image .
 
       - name: Run tests in Docker container
-        run: docker run my-image npm test
+        run: docker run merge-image npm test
+
+      - name: ESLint and Prettier check
+        run: |
+          docker run merge-image npm run lint  # Run ESLint
+          docker run merge-image npm run format:check  # Check Prettier formatting
