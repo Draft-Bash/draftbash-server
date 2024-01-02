@@ -1,4 +1,5 @@
 import { z, ZodError } from 'zod';
+import BadRequestError from '../exceptions/BadRequestError';
 
 const UserEntitySchema = z.object({
     userId: z.string().optional(),
@@ -42,7 +43,7 @@ export default class UserEntity {
                 const errorMessage = `Validation failed: ${error.errors
                     .map((err) => err.message)
                     .join(', ')}`;
-                throw new Error(errorMessage);
+                throw new BadRequestError(errorMessage);
             } else {
                 throw error;
             }

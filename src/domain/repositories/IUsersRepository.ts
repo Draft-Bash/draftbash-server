@@ -1,7 +1,7 @@
-import { UserCredentialsDTO } from "../../application/contracts/data-transfer-objects/users/UserCredentialsDTO";
-import { UserIdentificationDTO } from "../../application/contracts/data-transfer-objects/users/UserIdentificationDTO";
+import UserCredentialsDTO from "../../application/contracts/data-transfer-objects/users/UserCredentialsDTO";
+import UserIdentificationDTO from "../../application/contracts/data-transfer-objects/users/UserIdentificationDTO";
 
-export interface IUserRepository {
+export default interface IUserRepository {
     getUsersLikeUsername(username: string): Promise<UserIdentificationDTO[]>;
     insertUser(userCredentials: UserCredentialsDTO): Promise<UserIdentificationDTO>;
     getUsersByUsername(username: string): Promise<UserIdentificationDTO[]>;

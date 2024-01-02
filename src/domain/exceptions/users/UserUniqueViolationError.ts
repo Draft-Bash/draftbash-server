@@ -1,5 +1,6 @@
-export class UserUniqueViolationError extends Error {
+export default class UserUniqueViolationError extends Error {
     isUsernameUnique: boolean;
+
     isEmailUnique: boolean;
 
     constructor(isUsernameUnique: boolean, isEmailUnique: boolean, message?: string,  ) {

@@ -1,9 +1,11 @@
 import express from 'express';
+import setCache from './middleware/Cache';
 import usersRouter from './routes/users';
 
 const app = express();
 
 app.use(express.json());
+app.use(setCache);
 
 app.use('/api/v1/users', usersRouter);
 

@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { UserCredentialsDTO } from '../../application/contracts/data-transfer-objects/users/UserCredentialsDTO';
-import { ICreateUsersUseCase } from '../../application/contracts/use-cases/ICreateUsersUseCase';
-import { UserUniqueViolationError } from '../../domain/exceptions/users/UserUniqueViolationError';
+import UserCredentialsDTO from '../../application/contracts/data-transfer-objects/users/UserCredentialsDTO';
+import ICreateUsersUseCase  from '../../application/contracts/use-cases/ICreateUsersUseCase';
+import UserUniqueViolationError from '../../domain/exceptions/BadRequestError';
+import BadRequestError from '../../domain/exceptions/BadRequestError';
 
 export default class UsersController {
     private readonly createUserUseCase: ICreateUsersUseCase;
@@ -20,7 +21,11 @@ export default class UsersController {
             if (error instanceof Error) {
                 if (error instanceof UserUniqueViolationError) {
                     res.status(409).send({ error: error.message });
-                } else {
+                } 
+                else if (error instanceof BadRequestError) {
+                    res.status(400).send({ error: error.message });
+                }
+                else {
                     res.status(500).send({ error: error.message });
                 }
             } else {

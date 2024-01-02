@@ -9,7 +9,6 @@
         "lib": ["esnext"],
         "isolatedModules": true,
         "types": ["node", "jest"],
-        "baseUrl": "src",
         "esModuleInterop": true
     },
     "include": ["src/**/*.ts", "tests/**/*.ts"],

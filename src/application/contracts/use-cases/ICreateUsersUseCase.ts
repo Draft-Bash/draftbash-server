@@ -1,5 +1,5 @@
-import { UserCredentialsDTO } from "../data-transfer-objects/users/UserCredentialsDTO";
+import UserCredentialsDTO from '../data-transfer-objects/users/UserCredentialsDTO';
 
-export interface ICreateUsersUseCase {
+export default interface ICreateUsersUseCase {
     execute(userCredentials: UserCredentialsDTO): Promise<string>;
 }

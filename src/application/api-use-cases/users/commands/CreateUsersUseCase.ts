@@ -1,20 +1,20 @@
-import { IJWTtokenService } from '../../../../infrastructure/services/authentication/interfaces/IJWTtokenService';
-import { ICreateUsersUseCase } from '../../../contracts/use-cases/ICreateUsersUseCase';
-import { UserUniqueViolationError } from '../../../../domain/exceptions/users/UserUniqueViolationError';
-import { IUserRepository } from '../../../../domain/repositories/IUsersRepository';
-import { UserCredentialsDTO } from '../../../contracts/data-transfer-objects/users/UserCredentialsDTO';
-import { IbcryptService } from '../../../../infrastructure/services/authentication/interfaces/IbcryptService';
+import IJWTtokenService from '../../../contracts/services/authentication/IJWTtokenService';
+import UserUniqueViolationError from '../../../../domain/exceptions/users/UserUniqueViolationError';
+import IUsersRepository from '../../../../domain/repositories/IUsersRepository';
+import UserCredentialsDTO from '../../../contracts/data-transfer-objects/users/UserCredentialsDTO';
+import IbcryptService from '../../../contracts/services/authentication/IbcryptService';
 import UserEntity from '../../../../domain/entities/UserEntity';
+import ICreateUsersUseCase from '../../../contracts/use-cases/ICreateUsersUseCase';
 
 export default class CreateUsersUseCase implements ICreateUsersUseCase {
-    private readonly userRepository: IUserRepository;
+    private readonly userRepository: IUsersRepository;
 
     private readonly jwtTokenService: IJWTtokenService;
 
     private readonly bcryptService: IbcryptService;
 
     constructor(
-        userRepository: IUserRepository,
+        userRepository: IUsersRepository,
         jwtTokenHandler: IJWTtokenService,
         passwordHandler: IbcryptService,
     ) {
