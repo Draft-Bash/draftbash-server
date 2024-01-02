@@ -1,13 +1,26 @@
 {
     "parser": "@typescript-eslint/parser",
     "extends": [
+        "airbnb",
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
-        "prettier"
+        "prettier",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript"
     ],
     "plugins": ["@typescript-eslint"],
     "rules": {
-        // Additional rules can be added or modified here
+        "no-unused-vars": "warn",
+        "import/extensions": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": ["src"],
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
     }
 }

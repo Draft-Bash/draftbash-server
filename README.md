@@ -31,6 +31,8 @@ To do this, once the containers are spun up with docker-compose, you can open up
 
 ```bash
 docker exec -it draftbash-server-postgres-1 psql -U postgres -d draftbash
+# or
+npm run database
 ```
 
 You may need to have psql installed on your machine. Once the command is run, you will be able to interact with the database. Run `\dt`
@@ -51,9 +53,16 @@ To become a contributor, visit the "Contact" section and let me know if you woul
 As a contributor, you are expected to follow test-driven development and domain-driven development. You should follow the design and architectural patterns
 as described in the docs folder. In particular, we are following a Clean Architectural style. There are many articles and tutorials explaining Clean Architecture.
 Clean Architecture is similar to the Onion, Hexagonal, and Ports-and-Adapters architectures. The main idea is to have our business logic to use its dependencies by
-having them inserted with dependency injection. This tutorial explains Clean Architecture with concrete examples: [Clean Architecture Tutorial](https://www.youtube.com/watch?v=VmY22KuRDbk&t=1044s)
+having them inserted with dependency injection. This tutorial explains Clean Architecture with concrete examples: [Clean Architecture Tutorial](https://www.youtube.com/watch?v=VmY22KuRDbk&t=1044s).
+
+To help keeps things stable and readable, we recommend using immutable variables. For example, a list or dictionary should never be mutated. If a list needs to change, a new one
+should be created or returned. Try to use dependency injection often, but if tight coupling is needed, use composition. Never use inheritance. Interfaces and abstract classes are
+allowed, but prioritize interfaces. Functions should never produce outside side-effects. The input into a function should always return the same output.
 
 To learn the design patterns and the concrete architectural examples being implemented in this project, we recommend reading the documentation in the docs folder. One of the best ways to understand what different parts of the source code are doing is to look at the unit tests as they clearly describe the desired behavior of most of the classes and functions.
+
+Contributors are expected to follow the design and architectural patterns layed out in the docs folder. Your code is also expected to follow the code styling standards
+specified in the docs folder. When a pull request is made, requests that fail the eslint check, Prettier format check, and tests, will not be merged into main.
 
 As a contributor, you are expected to create your own feature branches. Once they are ready to merge into main, you will need to create a pull request, pass test cases, and ultimately get approved by me. The primary maintainer of the project has ultimately decides what is merged into main.
 
@@ -98,7 +107,8 @@ as needed.
 
 To maintain clean code, it is important for classes or functions to have their dependencies passed into them through dependency injection to ensure dependency inversion. This
 helps assure a separation of concerns. For example, if you need an emailer dependency, you always inject a new one during the instantiation of a class as long as it follows the interface the class requires. By simply injecting that emailer dependency, none of the business logic within the class needed to be modified.
-For the unit tests, you can pass mock dependencies so that the cases pass.
+For the unit tests, you can pass mock dependencies so that the cases pass. Only write unit tests where dependencies where the unit being tested has complex logic. Unit testing
+a database delete operation with a mock dependency is useless. Aim to test pure functions as much as possible. 
 
 Although unit tests are helpful, the most important ones are integration tests as they integrate several areas of your code together and utilize real dependencies,
 such as an HTTP request handler and database.

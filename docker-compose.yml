@@ -25,6 +25,7 @@ services:
         ports:
             - '3000:3000'
         environment:
+            JWT_SECRET: dev_jwt_secret
             DATABASE_URL: postgresql://postgres:devpassword@postgres:5432/draftbash?schema=public
         networks:
             - app-network

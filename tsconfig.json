@@ -7,9 +7,10 @@
         "strict": true,
         "sourceMap": true,
         "lib": ["esnext"],
-        "esModuleInterop": true,
         "isolatedModules": true,
-        "types": ["node", "jest"]
+        "types": ["node", "jest"],
+        "baseUrl": "src",
+        "esModuleInterop": true
     },
     "include": ["src/**/*.ts", "tests/**/*.ts"],
     "exclude": ["node_modules"]

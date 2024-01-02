@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build and run tests, check code formatting, and eslint compliance
 
 on:
     pull_request:
