@@ -5,9 +5,9 @@ const setCache = (req: Request, res: Response, next: NextFunction) => {
     const PERIOD = 60 * 5;
 
     if (req.method === 'GET') {
-        res.set('Cache-control', `public, max-age=${PERIOD}`);
+        res.set('Cache-Control', `public, max-age=${PERIOD}`);
     } else {
-        res.set('Cache-control', 'no-store');
+        res.set('Cache-Control', 'no-store');
     }
 
     next();

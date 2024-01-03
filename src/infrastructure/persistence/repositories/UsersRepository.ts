@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DatabaseConnection from '../DatabaseConnection';
-import IUserRepository from '../../../application/contracts/repositories/IUsersRepository';
-import UserCredentials from '../../../application/contracts/data-transfer-objects/users/UserCredentials';
-import UserIdentification from '../../../application/contracts/data-transfer-objects/users/UserIdentification';
+import IUserRepository from '../../../interfaces/repositories/IUsersRepository';
+import UserIdentificationDTO from '../../../interfaces/data-transfer-objects/users/UserIdentificationDTO';
+import UserCredentialsDTO from '../../../interfaces/data-transfer-objects/users/UserCredentialsDTO';
 
 export default class UsersRepository implements IUserRepository {
     private db: DatabaseConnection;
@@ -11,11 +11,11 @@ export default class UsersRepository implements IUserRepository {
         this.db = new DatabaseConnection();
     }
 
-    async getUsersLikeUsername(username: string): Promise<UserIdentification[]> {
+    async getUsersLikeUsername(username: string): Promise<UserIdentificationDTO[]> {
         const users = await this.db.query(`SELECT * FROM users WHERE username ILIKE $1 LIMIT 10`, [
             `${username}%`,
         ]);
-        const usersDTO: UserIdentification[] = users.map((user: any) =>
+        const usersDTO: UserIdentificationDTO[] = users.map((user: any) =>
             Object.freeze({
                 userId: user.user_id,
                 username: user.username,
@@ -35,7 +35,7 @@ export default class UsersRepository implements IUserRepository {
     async getUserByUsernameOrEmail(
         username: string,
         email: string,
-    ): Promise<UserIdentification | null> {
+    ): Promise<UserIdentificationDTO | null> {
         const user = await this.db.query(
             `SELECT username, email, password 
             FROM users 
@@ -52,7 +52,7 @@ export default class UsersRepository implements IUserRepository {
         });
     }
 
-    async getUserByEmail(email: string): Promise<UserIdentification | null> {
+    async getUserByEmail(email: string): Promise<UserIdentificationDTO | null> {
         const user = await this.db.query(`SELECT * FROM users WHERE email = $1 LIMIT 1`, [email]);
         if (user.length === 0) {
             return null;
@@ -64,7 +64,7 @@ export default class UsersRepository implements IUserRepository {
         });
     }
 
-    async getUserByUsername(username: string): Promise<UserIdentification | null> {
+    async getUserByUsername(username: string): Promise<UserIdentificationDTO | null> {
         const user = await this.db.query(`SELECT * FROM users WHERE username = $1 LIMIT 1`, [username]);
         if (user.length === 0) {
             return null;
@@ -77,7 +77,7 @@ export default class UsersRepository implements IUserRepository {
         });
     }
 
-    async insertUser(userCredentials: UserCredentials): Promise<UserIdentification> {
+    async insertUser(userCredentials: UserCredentialsDTO): Promise<UserIdentificationDTO> {
         const user = await this.db.query(
             `INSERT INTO users (username, email, password) 
                 VALUES ($1, $2, $3)

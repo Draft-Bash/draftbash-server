@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import UserUniqueViolationError from '../../../../src/domain/exceptions/users/UserUniqueViolationError';
-import IUserRepository from '../../../../src/application/contracts/repositories/IUsersRepository';
-import UserCredentials from '../../../../src/application/contracts/data-transfer-objects/users/UserCredentials';
-import IJWTtokenService from '../../../../src/application/contracts/services/authentication/IJWTtokenService';
-import IbcryptService from '../../../../src/application/contracts/services/authentication/IbcryptService';
+import IUserRepository from '../../../../src/interfaces/repositories/IUsersRepository';
+import IJWTtokenService from '../../../../src/interfaces/services/authentication/IJWTtokenService';
+import IbcryptService from '../../../../src/interfaces/services/authentication/IbcryptService';
 import MockbcryptService from './Mocks/MockbcryptService';
 import MockJWTtokenService from './Mocks/MockJWTtokenService';
 import MockUsersRepository from './Mocks/MockUsersRepository';
 import CreateUsersUseCase from '../../../../src/application/api-use-cases/users/commands/CreateUsersUseCase';
+import UserCredentialsDTO from '../../../../src/interfaces/data-transfer-objects/users/UserCredentialsDTO';
 
 describe('CreateUserUseCase', () => {
     it('creates a user successfully', async () => {
@@ -21,13 +21,13 @@ describe('CreateUserUseCase', () => {
             mockBcryptService,
         );
 
-        const credentials: UserCredentials = {
+        const userCredentials: UserCredentialsDTO = {
             username: 'testuser',
             email: 'test@example.com',
             password: 'testPassword1!',
         };
 
-        const result: string = await createUserUseCase.create(credentials);
+        const result: string = await createUserUseCase.create(userCredentials);
 
         expect(result).toBe('mockToken');
     });
@@ -48,7 +48,7 @@ describe('CreateUserUseCase', () => {
             mockBcryptService,
         );
 
-        const credentials: UserCredentials = {
+        const credentials: UserCredentialsDTO = {
             username: 'testuser',
             email: 'notDuplicate@example.com',
             password: 'testPassword1!',
@@ -75,7 +75,7 @@ describe('CreateUserUseCase', () => {
             mockBcryptService,
         );
 
-        const credentials: UserCredentials = {
+        const credentials: UserCredentialsDTO = {
             username: 'differentUser',
             email: 'test@example.com',
             password: 'testPassword1!',

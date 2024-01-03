@@ -1,5 +1,5 @@
-import UserCredentialsDTO from '../data-transfer-objects/users/UserCredentials';
-import UserIdentificationDTO from '../data-transfer-objects/users/UserIdentification';
+import UserCredentialsDTO from '../data-transfer-objects/users/UserCredentialsDTO';
+import UserIdentificationDTO from '../data-transfer-objects/users/UserIdentificationDTO';
 
 export default interface IUserRepository {
     getUsersLikeUsername(username: string): Promise<UserIdentificationDTO[]>;

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-labels */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import UserCredentials from '../../../../../src/application/contracts/data-transfer-objects/users/UserCredentials';
-import UserIdentification from '../../../../../src/application/contracts/data-transfer-objects/users/UserIdentification';
-import IUserRepository from '../../../../../src/application/contracts/repositories/IUsersRepository';
+import UserCredentials from '../../../../../src/interfaces/data-transfer-objects/users/UserCredentialsDTO';
+import UserIdentification from '../../../../../src/interfaces/data-transfer-objects/users/UserIdentificationDTO';
+import IUserRepository from '../../../../../src/interfaces/repositories/IUsersRepository';
 
 export default class MockUsersRepository implements IUserRepository {
     getUsersLikeUsername: jest.Mock<Promise<UserIdentification[]>, [string]> = jest.fn(

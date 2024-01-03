@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-labels */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import UserIdentificationDTO from '../../../../../src/application/contracts/data-transfer-objects/users/UserIdentification';
-import IJWTtokenService from '../../../../../src/application/contracts/services/authentication/IJWTtokenService';
+import UserIdentificationDTO from '../../../../../src/interfaces/data-transfer-objects/users/UserIdentificationDTO';
+import IJWTtokenService from '../../../../../src/interfaces/services/authentication/IJWTtokenService';
 
 export default class MockJwtTokenService implements IJWTtokenService {
     // Mock implementation

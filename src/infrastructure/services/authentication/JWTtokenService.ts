@@ -1,7 +1,7 @@
 import * as Jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import UserIdentificationDTO from '../../../application/contracts/data-transfer-objects/users/UserIdentification';
-import IJWTtokenService from '../../../application/contracts/services/authentication/IJWTtokenService';
+import UserIdentificationDTO from '../../../interfaces/data-transfer-objects/users/UserIdentificationDTO';
+import IJWTtokenService from '../../../interfaces/services/authentication/IJWTtokenService';
 
 dotenv.config();
 

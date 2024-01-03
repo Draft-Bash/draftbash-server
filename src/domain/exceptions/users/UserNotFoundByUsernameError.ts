@@ -1,4 +1,4 @@
-import UserIdentificationDTO from "../../../application/contracts/data-transfer-objects/users/UserIdentification";
+import UserIdentificationDTO from "../../../interfaces/data-transfer-objects/users/UserIdentificationDTO";
 
 export default class UserNotFoundByUsernameError extends Error {
     private readonly similarUsernameUsers: UserIdentificationDTO[];

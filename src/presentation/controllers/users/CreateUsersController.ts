@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import UserCredentialsDTO from '../../../application/contracts/data-transfer-objects/users/UserCredentials';
-import ICreateUsersUseCase from '../../../application/contracts/use-cases/ICreateUsersUseCase';
+import UserCredentialsDTO from '../../../interfaces/data-transfer-objects/users/UserCredentialsDTO';
+import ICreateUsersUseCase from '../../../interfaces/use-cases/ICreateUsersUseCase';
 import UserUniqueViolationError from '../../../domain/exceptions/users/UserUniqueViolationError';
 import BadRequestError from '../../../domain/exceptions/BadRequestError';
 

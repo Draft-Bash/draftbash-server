@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import ISearchUsersByUsernameUseCase from '../../../application/contracts/use-cases/ISearchUsersByUsernameUseCase';
+import ISearchUsersByUsernameUseCase from '../../../interfaces/use-cases/ISearchUsersByUsernameUseCase';
 import UserNotFoundByUsernameError from '../../../domain/exceptions/users/UserNotFoundByUsernameError';
 
 export default class SearchUsersByUsernameController {

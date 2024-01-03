@@ -1,8 +1,8 @@
-import UserIdentificationDTO from '../../../../src/application/contracts/data-transfer-objects/users/UserIdentification';
+import UserIdentificationDTO from '../../../../src/interfaces/data-transfer-objects/users/UserIdentificationDTO';
 import MockUsersRepository from './Mocks/MockUsersRepository';
 import SearchUsersByUsernameUseCase from '../../../../src/application/api-use-cases/users/queries/SearchUsersByUsernameUseCase';
 import UserNotFoundByUsernameError from '../../../../src/domain/exceptions/users/UserNotFoundByUsernameError';
-import UserIdentification from '../../../../src/application/contracts/data-transfer-objects/users/UserIdentification';
+import UserIdentification from '../../../../src/interfaces/data-transfer-objects/users/UserIdentificationDTO';
 
 describe('SearchUsersByUsernameUseCase', () => {
     it('throws a UserNotFoundByUsernameError returning a list of users with similar usernames.', async () => {
