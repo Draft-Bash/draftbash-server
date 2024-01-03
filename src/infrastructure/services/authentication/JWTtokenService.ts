@@ -1,6 +1,6 @@
 import * as Jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import UserIdentificationDTO from '../../../application/contracts/data-transfer-objects/users/UserIdentificationDTO';
+import UserIdentificationDTO from '../../../application/contracts/data-transfer-objects/users/UserIdentification';
 import IJWTtokenService from '../../../application/contracts/services/authentication/IJWTtokenService';
 
 dotenv.config();
@@ -33,7 +33,7 @@ export default class JWTtokenService implements IJWTtokenService {
             jwtToken,
             this.secret,
         ) as UserIdentificationDTO;
-        if  (userToken) {
+        if (userToken) {
             return userToken;
         }
         return null;

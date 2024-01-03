@@ -108,7 +108,7 @@ as needed.
 To maintain clean code, it is important for classes or functions to have their dependencies passed into them through dependency injection to ensure dependency inversion. This
 helps assure a separation of concerns. For example, if you need an emailer dependency, you always inject a new one during the instantiation of a class as long as it follows the interface the class requires. By simply injecting that emailer dependency, none of the business logic within the class needed to be modified.
 For the unit tests, you can pass mock dependencies so that the cases pass. Only write unit tests where dependencies where the unit being tested has complex logic. Unit testing
-a database delete operation with a mock dependency is useless. Aim to test pure functions as much as possible. 
+a database delete operation with a mock dependency is useless. Aim to test pure functions as much as possible.
 
 Although unit tests are helpful, the most important ones are integration tests as they integrate several areas of your code together and utilize real dependencies,
 such as an HTTP request handler and database.

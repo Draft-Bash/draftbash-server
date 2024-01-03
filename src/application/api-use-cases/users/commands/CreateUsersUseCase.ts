@@ -1,7 +1,7 @@
 import IJWTtokenService from '../../../contracts/services/authentication/IJWTtokenService';
 import UserUniqueViolationError from '../../../../domain/exceptions/users/UserUniqueViolationError';
-import IUsersRepository from '../../../../domain/repositories/IUsersRepository';
-import UserCredentialsDTO from '../../../contracts/data-transfer-objects/users/UserCredentialsDTO';
+import IUsersRepository from '../../../contracts/repositories/IUsersRepository';
+import UserCredentials from '../../../contracts/data-transfer-objects/users/UserCredentials';
 import IbcryptService from '../../../contracts/services/authentication/IbcryptService';
 import UserEntity from '../../../../domain/entities/UserEntity';
 import ICreateUsersUseCase from '../../../contracts/use-cases/ICreateUsersUseCase';
@@ -27,13 +27,11 @@ export default class CreateUsersUseCase implements ICreateUsersUseCase {
      * Creates a user and returns a JWT authorization token
      * @throws {UserUniqueViolationError} If the username or email is not unique.
      */
-    async execute(credentials: UserCredentialsDTO): Promise<string> {
+    async create(credentials: UserCredentials): Promise<string> {
         const user: UserEntity = new UserEntity(credentials);
 
-        const isUsernameUnique =
-            (await this.userRepository.getUsersByUsername(credentials.username)).length === 0;
-        const isEmailUnique =
-            (await this.userRepository.getUsersByEmail(credentials.email)).length === 0;
+        const isUsernameUnique = await this.userRepository.getUserByUsername(credentials.username) == null;
+        const isEmailUnique = await this.userRepository.getUserByEmail(credentials.email) == null;
 
         if (!isUsernameUnique || !isEmailUnique) {
             throw new UserUniqueViolationError(

@@ -1,11 +1,12 @@
 # Code Style Standards
 
 ## Airbnb Coding Standards
+
 For this project, we are following the coding standards outlined in the Airbnb Coding standard[https://github.com/airbnb/javascript].
 These standards cover things like class naming, variable naming, comments, whitespace, and so on.
 
-This standard will be enforced by eslint. If you have the eslint extension installed for VS Code, you should receive intellisense when 
-you write poorly formatted code. 
+This standard will be enforced by eslint. If you have the eslint extension installed for VS Code, you should receive intellisense when
+you write poorly formatted code.
 
 To access the Prettier format settings, you can check the out the .prettierrc file in the root folder.
 

@@ -11,7 +11,7 @@ const UserEntitySchema = z.object({
     password: z
         .string()
         .min(8, 'Password must be at least 8 characters long.')
-        .max(30, 'Password must be at most 30 characters long.')
+        .max(20, 'Password must be at most 20 characters long.')
         .refine((value) => /[A-Z]/.test(value), {
             message: 'Password must contain at least one capital letter.',
         })
