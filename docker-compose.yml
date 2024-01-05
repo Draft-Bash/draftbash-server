@@ -15,9 +15,9 @@ services:
             - postgres-data:/var/lib/postgresql/data
 
     express-app:
-        image: node:latest
+        image: node:20
         working_dir: /usr/src/app
-        command: bash -c "./shell-scripts/prisma-migrate.sh && npm install && npm run dev"
+        command: bash -c "./shell-scripts/prisma-migrate.sh && npm ci && npm run dev"
         volumes:
             - .:/usr/src/app
         depends_on:

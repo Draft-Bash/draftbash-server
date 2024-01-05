@@ -15,7 +15,8 @@
         "no-unused-vars": "warn",
         "import/extensions": "off",
         "class-methods-use-this": "off",
-        "object-shorthand": "off"
+        "object-shorthand": "off",
+        "import/no-extraneous-dependencies": "off"
     },
     "settings": {
         "import/resolver": {

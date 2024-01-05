@@ -2,7 +2,7 @@ import { z, ZodError } from 'zod';
 import BadRequestError from '../exceptions/BadRequestError';
 
 const UserEntitySchema = z.object({
-    userId: z.string().optional(),
+    userId: z.number().optional(),
     username: z
         .string()
         .min(3, 'Username must be at least 3 characters long.')
@@ -11,7 +11,6 @@ const UserEntitySchema = z.object({
     password: z
         .string()
         .min(8, 'Password must be at least 8 characters long.')
-        .max(20, 'Password must be at most 20 characters long.')
         .refine((value) => /[A-Z]/.test(value), {
             message: 'Password must contain at least one capital letter.',
         })
@@ -23,7 +22,7 @@ const UserEntitySchema = z.object({
 type UserEntityProps = z.infer<typeof UserEntitySchema>;
 
 export default class UserEntity {
-    private readonly userId: string | null;
+    private readonly userId: number | null;
 
     private readonly username: string;
 
@@ -50,7 +49,7 @@ export default class UserEntity {
         }
     }
 
-    getUserId(): string | null {
+    getUserId(): number | null {
         return this.userId;
     }
 

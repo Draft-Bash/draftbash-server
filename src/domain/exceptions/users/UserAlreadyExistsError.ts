@@ -1,4 +1,4 @@
-export default class UserUniqueViolationError extends Error {
+export default class UserAlreadyExistsError extends Error {
     private readonly isUsernameUnique: boolean;
 
     private readonly isEmailUnique: boolean;

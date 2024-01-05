@@ -3,6 +3,7 @@ import DatabaseConnection from '../DatabaseConnection';
 import IUserRepository from '../../../interfaces/repositories/IUsersRepository';
 import UserIdentificationDTO from '../../../interfaces/data-transfer-objects/users/UserIdentificationDTO';
 import UserCredentialsDTO from '../../../interfaces/data-transfer-objects/users/UserCredentialsDTO';
+import UserEntity from '../../../domain/entities/UserEntity';
 
 export default class UsersRepository implements IUserRepository {
     private db: DatabaseConnection;
@@ -12,9 +13,7 @@ export default class UsersRepository implements IUserRepository {
     }
 
     async getUsersLikeUsername(username: string): Promise<UserIdentificationDTO[]> {
-        const users = await this.db.query(`SELECT * FROM users WHERE username ILIKE $1 LIMIT 10`, [
-            `${username}%`,
-        ]);
+        const users = await this.db.query(`SELECT * FROM users WHERE username ILIKE $1 LIMIT 10`, [`${username}%`]);
         const usersDTO: UserIdentificationDTO[] = users.map((user: any) =>
             Object.freeze({
                 userId: user.user_id,
@@ -26,29 +25,25 @@ export default class UsersRepository implements IUserRepository {
     }
 
     async updateUserPassword(userId: number, password: string): Promise<void> {
-        await this.db.query(
-            `UPDATE users SET password = $1 WHERE user_id = $2;`,
-            [password, userId],
-        );
+        await this.db.query(`UPDATE users SET password = $1 WHERE user_id = $2;`, [password, userId]);
     }
 
-    async getUserByUsernameOrEmail(
-        username: string,
-        email: string,
-    ): Promise<UserIdentificationDTO | null> {
+    async getUserByUsernameOrEmail(usernameOrEmail: string): Promise<UserEntity | null> {
         const user = await this.db.query(
             `SELECT username, email, password 
             FROM users 
-            WHERE username = $1 OR email = $2 LIMIT 1`,
-            [username, email],
+            WHERE username = $1 OR email = $1 LIMIT 1`,
+            [usernameOrEmail],
         );
         if (user.length === 0) {
             return null;
         }
-        return Object.freeze({
+
+        return new UserEntity({
             userId: user[0].user_id,
             username: user[0].username,
             email: user[0].email,
+            password: user[0].password,
         });
     }
 

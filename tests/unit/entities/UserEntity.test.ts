@@ -34,17 +34,6 @@ describe('UserEntity', () => {
         ).toThrow('Validation failed: Password must be at least 8 characters long.');
     });
 
-    it('requires a password with at least 20 characters', () => {
-        expect(
-            () =>
-                new UserEntity({
-                    username: 'validUsername',
-                    password: 'this1PasswordIsLongerThan20Characters',
-                    email: 'test@gmail.com',
-                }),
-        ).toThrow('Validation failed: Password must be at most 20 characters long.');
-    });
-
     it('requires a password with at least one capital letter', () => {
         expect(
             () =>

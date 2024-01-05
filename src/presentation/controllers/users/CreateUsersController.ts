@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import UserCredentialsDTO from '../../../interfaces/data-transfer-objects/users/UserCredentialsDTO';
-import ICreateUsersUseCase from '../../../interfaces/use-cases/ICreateUsersUseCase';
-import UserUniqueViolationError from '../../../domain/exceptions/users/UserUniqueViolationError';
+import ICreateUsersUseCase from '../../../interfaces/use-cases/users/ICreateUsersUseCase';
+import UserUniqueViolationError from '../../../domain/exceptions/users/UserAlreadyExistsError';
 import BadRequestError from '../../../domain/exceptions/BadRequestError';
 
+// Receives HTTP request, calls use case, and sends HTTP response.
 export default class CreateUsersController {
     private readonly createUsersUsecase: ICreateUsersUseCase;
 
@@ -13,10 +14,9 @@ export default class CreateUsersController {
 
     async createUser(req: Request, res: Response) {
         try {
-            const userCreationCredentials: UserCredentialsDTO = req.body;
-            const createdUserJwtAuthorizationToken: string =
-                await this.createUsersUsecase.create(userCreationCredentials);
-            res.status(201).send(createdUserJwtAuthorizationToken);
+            const userCredentials: UserCredentialsDTO = req.body;
+            const userJwtAuthorizationToken: string = await this.createUsersUsecase.create(userCredentials);
+            res.status(201).send(userJwtAuthorizationToken);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 if (error instanceof UserUniqueViolationError) {

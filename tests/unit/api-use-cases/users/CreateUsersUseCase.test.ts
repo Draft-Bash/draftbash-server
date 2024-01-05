@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import UserUniqueViolationError from '../../../../src/domain/exceptions/users/UserUniqueViolationError';
-import IUserRepository from '../../../../src/interfaces/repositories/IUsersRepository';
-import IJWTtokenService from '../../../../src/interfaces/services/authentication/IJWTtokenService';
-import IbcryptService from '../../../../src/interfaces/services/authentication/IbcryptService';
+import UserUniqueViolationError from '../../../../src/domain/exceptions/users/UserAlreadyExistsError';
 import MockbcryptService from './Mocks/MockbcryptService';
 import MockJWTtokenService from './Mocks/MockJWTtokenService';
 import MockUsersRepository from './Mocks/MockUsersRepository';
@@ -11,9 +8,9 @@ import UserCredentialsDTO from '../../../../src/interfaces/data-transfer-objects
 
 describe('CreateUserUseCase', () => {
     it('creates a user successfully', async () => {
-        const mockUserRepository = new MockUsersRepository() as IUserRepository;
-        const mockJwtTokenService = new MockJWTtokenService() as IJWTtokenService;
-        const mockBcryptService = new MockbcryptService() as IbcryptService;
+        const mockUserRepository = new MockUsersRepository();
+        const mockJwtTokenService = new MockJWTtokenService();
+        const mockBcryptService = new MockbcryptService();
 
         const createUserUseCase = new CreateUsersUseCase(
             mockUserRepository,
@@ -33,9 +30,9 @@ describe('CreateUserUseCase', () => {
     });
 
     it('throws UserUniqueViolationError when username is not unique', async () => {
-        const mockUserRepository = new MockUsersRepository() as IUserRepository;
-        const mockJwtTokenService = new MockJWTtokenService() as IJWTtokenService;
-        const mockBcryptService = new MockbcryptService() as IbcryptService;
+        const mockUserRepository = new MockUsersRepository();
+        const mockJwtTokenService = new MockJWTtokenService();
+        const mockBcryptService = new MockbcryptService();
 
         // Simulate non-unique username
         (mockUserRepository.getUserByUsername as jest.Mock).mockResolvedValueOnce(
@@ -60,9 +57,9 @@ describe('CreateUserUseCase', () => {
     });
 
     it('throws UserUniqueViolationError when email is not unique', async () => {
-        const mockUserRepository = new MockUsersRepository() as IUserRepository;
-        const mockJwtTokenService = new MockJWTtokenService() as IJWTtokenService;
-        const mockBcryptService = new MockbcryptService() as IbcryptService;
+        const mockUserRepository = new MockUsersRepository();
+        const mockJwtTokenService = new MockJWTtokenService();
+        const mockBcryptService = new MockbcryptService();
 
         // Simulate non-unique email
         (mockUserRepository.getUserByUsername as jest.Mock).mockResolvedValueOnce(

@@ -5,7 +5,7 @@ import IJWTtokenService from '../../../../../src/interfaces/services/authenticat
 
 export default class MockJwtTokenService implements IJWTtokenService {
     // Mock implementation
-    sign(data: unknown, options: unknown): string {
+    sign(data: unknown): string {
         return 'mockToken';
     }
 
