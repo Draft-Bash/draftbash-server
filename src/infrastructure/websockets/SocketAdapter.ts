@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Socket } from 'socket.io';
+import { Socket, Namespace } from 'socket.io';
 import ISocketAdapter from '../../interfaces/websockets/ISocketAdapter';
 
 export default class SocketIOAdapter implements ISocketAdapter {
     private readonly socket: Socket;
 
-    constructor(socket: Socket) {
+    private readonly ioServerNamespace: Namespace;
+
+    constructor(socket: Socket, ioServerNamespace: Namespace) {
         this.socket = socket;
+        this.ioServerNamespace = ioServerNamespace;
     }
 
     joinRoom(roomName: string): void {
@@ -20,8 +23,7 @@ export default class SocketIOAdapter implements ISocketAdapter {
     }
 
     emitToRoom(roomName: string, eventName: string, eventData: any): void {
-        // Emit an event to a specific room within the current namespace
-        this.socket.to(roomName).emit(eventName, eventData);
+        this.ioServerNamespace.to(roomName).emit(eventName, eventData);
     }
 
     emit(eventName: string, eventData: any): void {

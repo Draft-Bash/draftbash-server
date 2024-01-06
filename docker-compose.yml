@@ -19,7 +19,7 @@ services:
         working_dir: /usr/src/app
         command: bash -c "./shell-scripts/prisma-migrate.sh && npm ci && npm run dev"
         volumes:
-            - .:/usr/src/app
+            - .:/usr/src/app:delegated
         depends_on:
             - postgres
         ports:
