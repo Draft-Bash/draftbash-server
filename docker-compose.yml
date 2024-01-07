@@ -9,30 +9,25 @@ services:
             POSTGRES_DB: draftbash
         ports:
             - '5432:5432'
-        networks:
-            - app-network
         volumes:
             - postgres-data:/var/lib/postgresql/data
 
-    express-app:
-        image: node:20
-        working_dir: /usr/src/app
-        command: bash -c "./shell-scripts/prisma-migrate.sh && npm ci && npm run dev"
+    dev-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: base
         volumes:
-            - .:/usr/src/app:delegated
-        depends_on:
-            - postgres
+            - ./src:/app/src
+            - ./nodemon.json:/app/nodemon.json
+        container_name: dev-app
+        expose:
+            - '3000'
         ports:
             - '3000:3000'
         environment:
-            JWT_SECRET: dev_jwt_secret
-            DATABASE_URL: postgresql://postgres:devpassword@postgres:5432/draftbash?schema=public
-        networks:
-            - app-network
-
-networks:
-    app-network:
-        driver: bridge
+            DATABASE_URL: "postgres://postgres:devpassword@postgres:5432/draftbash?schema=public"
+        command: sh -c './shell-scripts/prisma-migrate.sh && npm run dev'
 
 volumes:
     postgres-data:

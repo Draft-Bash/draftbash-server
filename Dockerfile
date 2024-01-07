@@ -1,5 +1,6 @@
-# Use an official Node.js runtime as a base image
-FROM node:20
+# Use an official Node.js runtime as a base image.
+# Build the application for development
+FROM node:20 as base
 
 # Set the working directory to /app
 WORKDIR /app
@@ -13,11 +14,9 @@ RUN npm ci
 # Copy the application code to the working directory
 COPY . .
 
-# Build the TypeScript code
+# Build the application for production
+FROM base as production
+
+ENV NODE_PATH=./build
+
 RUN npm run build
-
-# Expose the port that the app will run on
-EXPOSE 3000
-
-# Define the command to run the application
-CMD ["npm", "start"]

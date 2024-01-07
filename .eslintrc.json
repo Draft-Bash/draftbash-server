@@ -16,7 +16,9 @@
         "import/extensions": "off",
         "class-methods-use-this": "off",
         "object-shorthand": "off",
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "no-useless-catch": "off",
+        "no-plusplus": "off"
     },
     "settings": {
         "import/resolver": {

@@ -1,6 +1,6 @@
-import UserIdentificationDTO from '../../../../interfaces/data-transfer-objects/users/UserIdentificationDTO';
-import IJWTtokenService from '../../../../interfaces/services/authentication/IJWTtokenService';
-import IValidateJWTtokensUseCase from '../../../../interfaces/use-cases/users/IValidateJWTtokensUseCase';
+import UserIdentificationDTO from '../../../../presentation/data-transfer-objects/users/UserIdentificationDTO';
+import IJWTtokenService from '../../../../adapter-interfaces/authentication/IJWTtokenService';
+import IValidateJWTtokensUseCase from '../use-case-interfaces/IValidateJWTtokensUseCase';
 
 export default class ValidateJWTtokensUseCase implements IValidateJWTtokensUseCase {
     private readonly jwtTokenService: IJWTtokenService;

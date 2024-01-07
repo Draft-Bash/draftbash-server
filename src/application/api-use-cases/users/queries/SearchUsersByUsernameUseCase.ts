@@ -1,7 +1,7 @@
-import IUsersRepository from '../../../../interfaces/repositories/IUsersRepository';
-import ISearchUsersByUsernameUseCase from '../../../../interfaces/use-cases/users/ISearchUsersByUsernameUseCase';
+import IUsersRepository from '../../../../domain/repositories/IUsersRepository';
+import ISearchUsersByUsernameUseCase from '../use-case-interfaces/ISearchUsersByUsernameUseCase';
 import UserNotFoundByUsernameError from '../../../../domain/exceptions/users/UserNotFoundByUsernameError';
-import UserIdentificationDTO from '../../../../interfaces/data-transfer-objects/users/UserIdentificationDTO';
+import UserIdentificationDTO from '../../../../presentation/data-transfer-objects/users/UserIdentificationDTO';
 
 export default class SearchUsersByUsernameUseCase implements ISearchUsersByUsernameUseCase {
     private userRepository: IUsersRepository;

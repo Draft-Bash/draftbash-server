@@ -1,5 +1,5 @@
-import IDraftOrderSubject from '../../../interfaces/websockets/IDraftOrderSubject';
-import IDraftOrderObserver from '../../../interfaces/websockets/drafts/IDraftOrderObserver';
+import IDraftOrderSubject from '../../../adapter-interfaces/drafts/IDraftOrderSubject';
+import IDraftOrderObserver from '../../../adapter-interfaces/drafts/IDraftOrderObserver';
 
 export default class DraftOrderSubject implements IDraftOrderSubject {
     private draftOrderObservers: IDraftOrderObserver[] = [];
@@ -19,7 +19,9 @@ export default class DraftOrderSubject implements IDraftOrderSubject {
         });
     }
 
-    notifyObservers(currentDraftOrderTurn: unknown): void {
+    notifyObservers(): void {
+        // TODO: Implement logic for fetching the top of the draft order from the database.
+        const currentDraftOrderTurn = 1;
         this.draftOrderObservers.forEach((observer) => observer.update(currentDraftOrderTurn));
     }
 }

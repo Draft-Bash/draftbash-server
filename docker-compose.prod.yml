@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+    prod-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: production
+        container_name: prod-app
+        expose:
+            - '3000'
+        ports:
+            - '3000:3000'
+        command: node build/src/index.js

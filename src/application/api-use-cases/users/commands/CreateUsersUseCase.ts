@@ -1,11 +1,11 @@
-import IJWTtokenService from '../../../../interfaces/services/authentication/IJWTtokenService';
+import IJWTtokenService from '../../../../adapter-interfaces/authentication/IJWTtokenService';
 import UserUniqueViolationError from '../../../../domain/exceptions/users/UserAlreadyExistsError';
-import IUsersRepository from '../../../../interfaces/repositories/IUsersRepository';
-import IbcryptService from '../../../../interfaces/services/authentication/IbcryptService';
-import UserEntity from '../../../../domain/entities/UserEntity';
-import ICreateUsersUseCase from '../../../../interfaces/use-cases/users/ICreateUsersUseCase';
-import UserCredentialsDTO from '../../../../interfaces/data-transfer-objects/users/UserCredentialsDTO';
-import UserIdentificationDTO from '../../../../interfaces/data-transfer-objects/users/UserIdentificationDTO';
+import IUsersRepository from '../../../../domain/repositories/IUsersRepository';
+import IbcryptService from '../../../../adapter-interfaces/authentication/IbcryptService';
+import UserEntity from '../../../../domain/value-objects/users/UserEntity';
+import ICreateUsersUseCase from '../use-case-interfaces/ICreateUsersUseCase';
+import UserCredentialsDTO from '../../../../presentation/data-transfer-objects/users/UserCredentialsDTO';
+import UserIdentificationDTO from '../../../../presentation/data-transfer-objects/users/UserIdentificationDTO';
 
 // Handles user registration business logic.
 export default class CreateUsersUseCase implements ICreateUsersUseCase {

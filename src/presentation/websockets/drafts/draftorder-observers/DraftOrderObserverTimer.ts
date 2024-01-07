@@ -1,6 +1,6 @@
-import IDraftOrderSubject from '../../../../interfaces/websockets/IDraftOrderSubject';
-import ISocketAdapter from '../../../../interfaces/websockets/ISocketAdapter';
-import IDraftOrderObserver from '../../../../interfaces/websockets/drafts/IDraftOrderObserver';
+import IDraftOrderSubject from '../../../../adapter-interfaces/drafts/IDraftOrderSubject';
+import ISocketAdapter from '../../../../adapter-interfaces/websockets/ISocketAdapter';
+import IDraftOrderObserver from '../../../../adapter-interfaces/drafts/IDraftOrderObserver';
 
 export default class DraftOrderObserverTimer implements IDraftOrderObserver {
     private readonly socket: ISocketAdapter;
@@ -27,7 +27,7 @@ export default class DraftOrderObserverTimer implements IDraftOrderObserver {
             this.socket.emitToRoom(this.draft as string, 'updateTimer', seconds);
 
             if (seconds <= 0) {
-                this.draftOrderSubject.notifyObservers('Timer expired');
+                this.draftOrderSubject.notifyObservers();
                 clearInterval(updateTimerInterval); // Stop the interval when the timer expires
             }
 

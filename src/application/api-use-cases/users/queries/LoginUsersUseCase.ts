@@ -1,9 +1,9 @@
-import UserEntity from '../../../../domain/entities/UserEntity';
+import UserEntity from '../../../../domain/value-objects/users/UserEntity';
 import InvalidUserCredentialsError from '../../../../domain/exceptions/users/InvalidUserCredentialsError';
-import IUsersRepository from '../../../../interfaces/repositories/IUsersRepository';
-import IJWTtokenService from '../../../../interfaces/services/authentication/IJWTtokenService';
-import IbcryptService from '../../../../interfaces/services/authentication/IbcryptService';
-import ILoginUsersUseCase from '../../../../interfaces/use-cases/users/ILoginUsersUseCase';
+import IUsersRepository from '../../../../domain/repositories/IUsersRepository';
+import IJWTtokenService from '../../../../adapter-interfaces/authentication/IJWTtokenService';
+import IbcryptService from '../../../../adapter-interfaces/authentication/IbcryptService';
+import ILoginUsersUseCase from '../use-case-interfaces/ILoginUsersUseCase';
 
 
 // Handles user login business logic.

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DatabaseConnection from '../DatabaseConnection';
-import IUserRepository from '../../../interfaces/repositories/IUsersRepository';
-import UserIdentificationDTO from '../../../interfaces/data-transfer-objects/users/UserIdentificationDTO';
-import UserCredentialsDTO from '../../../interfaces/data-transfer-objects/users/UserCredentialsDTO';
-import UserEntity from '../../../domain/entities/UserEntity';
+import IUserRepository from '../../../domain/repositories/IUsersRepository';
+import UserIdentificationDTO from '../../../presentation/data-transfer-objects/users/UserIdentificationDTO';
+import UserCredentialsDTO from '../../../presentation/data-transfer-objects/users/UserCredentialsDTO';
+import UserEntity from '../../../domain/value-objects/users/UserEntity';
 
 export default class UsersRepository implements IUserRepository {
     private db: DatabaseConnection;

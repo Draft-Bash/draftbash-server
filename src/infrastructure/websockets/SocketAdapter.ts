@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Socket, Namespace } from 'socket.io';
-import ISocketAdapter from '../../interfaces/websockets/ISocketAdapter';
+import ISocketAdapter from '../../adapter-interfaces/websockets/ISocketAdapter';
 
 export default class SocketIOAdapter implements ISocketAdapter {
     private readonly socket: Socket;
