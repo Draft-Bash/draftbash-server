@@ -1,6 +1,8 @@
-dist
 node_modules
-.env
 .jest-cache
 coverage
-build
+tests
+.vscode
+docs
+tests
+.github

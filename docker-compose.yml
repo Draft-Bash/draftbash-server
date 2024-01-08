@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+    postgres:
+        image: postgres:latest
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: devpassword
+            POSTGRES_DB: draftbash
+        ports:
+            - '5432:5432'
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+
+    dev-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: base
+        volumes:
+            - ./src:/app/src
+            - ./nodemon.json:/app/nodemon.json
+        container_name: dev-app
+        expose:
+            - '3000'
+        ports:
+            - '3000:3000'
+        environment:
+            DATABASE_URL: "postgres://postgres:devpassword@postgres:5432/draftbash?schema=public"
+        command: sh -c './shell-scripts/prisma-migrate.sh && npm run dev'
+
+volumes:
+    postgres-data:
