@@ -30,7 +30,7 @@ model draft_users {
 
 model drafts {
   draft_id              Int        @id @default(autoincrement())
-  draft_type            String
+  order_type            String
   scoring_type          String
   pick_time_seconds     Int
   team_count            Int

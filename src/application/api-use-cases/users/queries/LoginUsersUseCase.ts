@@ -1,4 +1,4 @@
-import UserEntity from '../../../../domain/value-objects/users/UserEntity';
+import UserEntity from '../../../../domain/entities/UserEntity';
 import InvalidUserCredentialsError from '../../../../domain/exceptions/users/InvalidUserCredentialsError';
 import IUsersRepository from '../../../../domain/repositories/IUsersRepository';
 import IJWTtokenService from '../../../../adapter-interfaces/authentication/IJWTtokenService';
@@ -49,11 +49,7 @@ export default class LoginUsersUseCase implements ILoginUsersUseCase {
         }
 
         // Generate a JWT authorization token for the authenticated user.
-        const jwtToken: string = this.jwtTokenService.sign({
-            userId: user.getUserId() as unknown as number,
-            username: user.getUsername(),
-            email: user.getEmail(),
-        });
+        const jwtToken: string = this.jwtTokenService.sign(user);
 
         // Return the generated JWT token.
         return jwtToken;

@@ -1,6 +1,7 @@
-import UserIdentificationDTO from "../../presentation/data-transfer-objects/users/UserIdentificationDTO";
+import UserEntity from "../../domain/entities/UserEntity";
+import UserResponse from "../../presentation/data-transfer-objects/users/UserResponse";
 
 export default interface IJWTtokenService {
-    sign(userToken: UserIdentificationDTO): string;
-    verify(token: string): UserIdentificationDTO;
+    sign(userToken: UserEntity): string;
+    verify(token: string): UserResponse;
 }

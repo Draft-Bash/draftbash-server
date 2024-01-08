@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-labels */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import UserEntity from '../../../../../../src/domain/value-objects/users/UserEntity';
-import UserCredentials from '../../../../../../src/presentation/data-transfer-objects/users/UserCredentialsDTO';
+import UserEntity from '../../../../../../src/domain/entities/UserEntity';
 import UserIdentificationDTO from '../../../../../../src/presentation/data-transfer-objects/users/UserIdentificationDTO';
 import IUserRepository from '../../../../../../src/domain/repositories/IUsersRepository';
+import UserCredentials from '../../../../../../src/domain/value-objects/users/UserCredentials';
+
 
 export default class MockUsersRepository implements IUserRepository {
-    getUsersLikeUsername: jest.Mock<Promise<UserIdentificationDTO[]>, [string]> = jest.fn(
+    getUsernamesLikeUsername: jest.Mock<Promise<string[]>, [string]> = jest.fn(
         async (username: string) => [],
     );
 
@@ -14,19 +15,22 @@ export default class MockUsersRepository implements IUserRepository {
         async (usernameOrEmail: string) => null
     );
 
-    getUserByUsername: jest.Mock<Promise<UserIdentificationDTO | null>, [string]> = jest.fn(
+    getUserByUsername: jest.Mock<Promise<UserEntity| null>, [string]> = jest.fn(
         async (username: string) => null,
     );
 
-    getUserByEmail: jest.Mock<Promise<UserIdentificationDTO | null>, [string]> = jest.fn(
+    getUserByEmail: jest.Mock<Promise<UserEntity | null>, [string]> = jest.fn(
         async (email: string) => null,
     );
 
-    async insertUser(userCredentials: UserCredentials): Promise<UserIdentificationDTO> {
-        return {
-            userId: 1,
-            username: userCredentials.username,
-            email: userCredentials.email,
-        };
+    async insertUser(userCredentials: UserCredentials): Promise<UserEntity> {
+        return new UserEntity(
+            1,
+            new UserCredentials({
+                username: userCredentials.getUsername(),
+                email: userCredentials.getEmail(),
+                password: userCredentials.getPassword(),
+            })
+        )
     }
 }

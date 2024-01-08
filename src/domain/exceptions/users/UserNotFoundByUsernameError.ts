@@ -1,17 +1,16 @@
-import UserIdentificationDTO from "../../../presentation/data-transfer-objects/users/UserIdentificationDTO";
 
 export default class UserNotFoundByUsernameError extends Error {
-    private readonly similarUsernameUsers: UserIdentificationDTO[];
+    private readonly similarUsernames: string[];
 
-    constructor(similarUsernameUsers: UserIdentificationDTO[], message?: string) {
+    constructor(similarUsernames: string[], message?: string) {
         super(message);
         this.name = 'UserNotFoundByUsernameError';
-        this.similarUsernameUsers = similarUsernameUsers;
+        this.similarUsernames = similarUsernames;
 
         Object.setPrototypeOf(this, new.target.prototype);
     }
 
-    public getSimilarUsernameUsers(): UserIdentificationDTO[] {
-        return this.similarUsernameUsers;
+    public getSimilarUsernameUsers(): string[] {
+        return this.similarUsernames;
     }
 }

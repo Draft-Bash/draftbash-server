@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import UserIdentificationDTO from '../../../data-transfer-objects/users/UserIdentificationDTO';
 import IValidateJWTtokensUseCase from '../../../../application/api-use-cases/users/use-case-interfaces/IValidateJWTtokensUseCase';
 import InvalidJWTtokenError from '../../../../domain/exceptions/users/InvalidJWTtokenError';
+import UserResponse from '../../../data-transfer-objects/users/UserResponse';
 
 export default class ValidateJWTtokensController {
     private readonly validateJWTtokenUseCase: IValidateJWTtokensUseCase;
@@ -18,8 +18,8 @@ export default class ValidateJWTtokensController {
             }
             else {
                 const jwtToken: string = authorizationHeader.split(' ')[1];
-                const validatedUser: UserIdentificationDTO =
-                await this.validateJWTtokenUseCase.validateJWTtoken(jwtToken);
+                const validatedUser: UserResponse = await this.validateJWTtokenUseCase.validateJWTtoken(jwtToken);
+
                 res.status(200).send(validatedUser);
             }
         } catch (error: unknown) {

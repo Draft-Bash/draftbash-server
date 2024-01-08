@@ -1,7 +1,7 @@
 import IUsersRepository from '../../../../domain/repositories/IUsersRepository';
 import ISearchUsersByUsernameUseCase from '../use-case-interfaces/ISearchUsersByUsernameUseCase';
 import UserNotFoundByUsernameError from '../../../../domain/exceptions/users/UserNotFoundByUsernameError';
-import UserIdentificationDTO from '../../../../presentation/data-transfer-objects/users/UserIdentificationDTO';
+import UserEntity from '../../../../domain/entities/UserEntity';
 
 export default class SearchUsersByUsernameUseCase implements ISearchUsersByUsernameUseCase {
     private userRepository: IUsersRepository;
@@ -20,18 +20,18 @@ export default class SearchUsersByUsernameUseCase implements ISearchUsersByUsern
      * If no exact match is found, it throws an error, containing a list of similar users with similar usernames.
      * @async
      * @param {string} username - The username to search for.
-     * @returns {Promise<UserIdentificationDTO>} The identification details of the matching user.
+     * @returns {Promise<UserEntity>} The identification details of the matching user.
      * @throws {UserNotFoundByUsernameError} Thrown when no exact match is found, providing similar users.
      */
-    async search(username: string): Promise<UserIdentificationDTO> {
-        const matchingUser: UserIdentificationDTO | null = await this.userRepository.getUserByUsername(username);
+    async search(username: string): Promise<UserEntity> {
+        const matchingUser: UserEntity | null = await this.userRepository.getUserByUsername(username);
 
         if (matchingUser != null) {
             return matchingUser;
         }
 
-        const similarUsers: UserIdentificationDTO[] = await this.userRepository.getUsersLikeUsername(username);
+        const similarUsernames: string[] = await this.userRepository.getUsernamesLikeUsername(username);
 
-        throw new UserNotFoundByUsernameError(similarUsers, 'UserNotFoundByUsernameError');
+        throw new UserNotFoundByUsernameError(similarUsernames, 'UserNotFoundByUsernameError');
     }
 }

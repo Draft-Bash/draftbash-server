@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import ISearchUsersByUsernameUseCase from '../../../../application/api-use-cases/users/use-case-interfaces/ISearchUsersByUsernameUseCase';
 import UserNotFoundByUsernameError from '../../../../domain/exceptions/users/UserNotFoundByUsernameError';
-import UserIdentificationDTO from '../../../data-transfer-objects/users/UserIdentificationDTO';
+import UserEntity from '../../../../domain/entities/UserEntity';
+import UserResponse from '../../../data-transfer-objects/users/UserResponse';
 
 export default class SearchUsersByUsernameController {
     private readonly searchUsersByUsernameUseCase: ISearchUsersByUsernameUseCase;
@@ -14,9 +15,15 @@ export default class SearchUsersByUsernameController {
         try {
             const searchedUsername: string = req.query.searched_username as string;
 
-            const matchedUser: UserIdentificationDTO = await this.searchUsersByUsernameUseCase.search(searchedUsername);
+            const matchedUser: UserEntity = await this.searchUsersByUsernameUseCase.search(searchedUsername);
 
-            res.status(200).send(matchedUser);
+            const userResponse: UserResponse = {
+                userId: matchedUser.getUserId(),
+                username: matchedUser.getUsername(),
+                email: matchedUser.getEmail()
+            }
+
+            res.status(200).send(userResponse);
         } catch (error: unknown) {
             if (error instanceof UserNotFoundByUsernameError) {
                 res.status(404).send({

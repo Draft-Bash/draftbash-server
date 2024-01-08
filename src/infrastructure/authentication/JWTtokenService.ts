@@ -1,8 +1,9 @@
 import * as Jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import UserIdentificationDTO from '../../presentation/data-transfer-objects/users/UserIdentificationDTO';
 import IJWTtokenService from '../../adapter-interfaces/authentication/IJWTtokenService';
 import InvalidJWTtokenError from '../../domain/exceptions/users/InvalidJWTtokenError';
+import UserEntity from '../../domain/entities/UserEntity';
+import UserResponse from '../../presentation/data-transfer-objects/users/UserResponse';
 
 dotenv.config();
 
@@ -16,12 +17,12 @@ export default class JWTtokenService implements IJWTtokenService {
         this.jwt = Jwt;
     }
 
-    sign(user: UserIdentificationDTO): string {
+    sign(user: UserEntity): string {
         const jwtToken: string = this.jwt.sign(
             {
-                userId: user.userId,
-                username: user.username,
-                email: user.email,
+                userId: user.getUserId(),
+                username: user.getUsername(),
+                email: user.getEmail(),
             },
             this.secret,
             { expiresIn: '2hr' },
@@ -29,9 +30,9 @@ export default class JWTtokenService implements IJWTtokenService {
         return jwtToken;
     }
 
-    verify(jwtToken: string): UserIdentificationDTO {
+    verify(jwtToken: string): UserResponse {
         try {
-            const user: UserIdentificationDTO = this.jwt.verify(jwtToken, this.secret) as UserIdentificationDTO;
+            const user: UserResponse = this.jwt.verify(jwtToken, this.secret) as UserResponse;
             return user;
         } catch (error: unknown) {
             throw new InvalidJWTtokenError("InvalidJWTtokenError");

@@ -4,7 +4,9 @@ import MockbcryptService from './Mocks/MockbcryptService';
 import MockJWTtokenService from './Mocks/MockJWTtokenService';
 import MockUsersRepository from './Mocks/MockUsersRepository';
 import CreateUsersUseCase from '../../../../../src/application/api-use-cases/users/commands/CreateUsersUseCase';
-import UserCredentialsDTO from '../../../../../src/presentation/data-transfer-objects/users/UserCredentialsDTO';
+import CreateUserRequest from '../../../../../src/presentation/data-transfer-objects/users/CreateUserRequest';
+import UserEntity from '../../../../../src/domain/entities/UserEntity';
+import UserCredentials from '../../../../../src/domain/value-objects/users/UserCredentials';
 
 describe('CreateUserUseCase', () => {
     it('creates a user successfully', async () => {
@@ -18,13 +20,13 @@ describe('CreateUserUseCase', () => {
             mockBcryptService,
         );
 
-        const userCredentials: UserCredentialsDTO = {
+        const createUserRequest: CreateUserRequest = {
             username: 'testuser',
             email: 'test@example.com',
             password: 'testPassword1!',
         };
 
-        const result: string = await createUserUseCase.create(userCredentials);
+        const result: string = await createUserUseCase.create(createUserRequest);
 
         expect(result).toBe('mockToken');
     });
@@ -36,24 +38,25 @@ describe('CreateUserUseCase', () => {
 
         // Simulate non-unique username
         (mockUserRepository.getUserByUsername as jest.Mock).mockResolvedValueOnce(
-            { userId: 1, username: 'testuser', email: 'test@example.com' },
+            new UserEntity(
+                1,
+                new UserCredentials({
+                    username: 'testuser',
+                    email: 'test@example.com',
+                    password: 'testPassword1!',
+                }),
+            ),
         );
 
-        const createUserUseCase = new CreateUsersUseCase(
-            mockUserRepository,
-            mockJwtTokenService,
-            mockBcryptService,
-        );
+        const createUserUseCase = new CreateUsersUseCase(mockUserRepository, mockJwtTokenService, mockBcryptService);
 
-        const credentials: UserCredentialsDTO = {
+        const credentials: CreateUserRequest = {
             username: 'testuser',
             email: 'notDuplicate@example.com',
             password: 'testPassword1!',
         };
 
-        await expect(createUserUseCase.create(credentials)).rejects.toThrow(
-            UserUniqueViolationError
-        );
+        await expect(createUserUseCase.create(credentials)).rejects.toThrow(UserUniqueViolationError);
     });
 
     it('throws UserUniqueViolationError when email is not unique', async () => {
@@ -61,9 +64,15 @@ describe('CreateUserUseCase', () => {
         const mockJwtTokenService = new MockJWTtokenService();
         const mockBcryptService = new MockbcryptService();
 
-        // Simulate non-unique email
         (mockUserRepository.getUserByUsername as jest.Mock).mockResolvedValueOnce(
-            { userId: 1, username: 'testuser', email: 'test@example.com' },
+            new UserEntity(
+                1,
+                new UserCredentials({
+                    username: 'testuser',
+                    email: 'test@example.com',
+                    password: 'testPassword1!',
+                }),
+            ),
         );
 
         const createUserUseCase = new CreateUsersUseCase(
@@ -72,7 +81,7 @@ describe('CreateUserUseCase', () => {
             mockBcryptService,
         );
 
-        const credentials: UserCredentialsDTO = {
+        const credentials: CreateUserRequest = {
             username: 'differentUser',
             email: 'test@example.com',
             password: 'testPassword1!',

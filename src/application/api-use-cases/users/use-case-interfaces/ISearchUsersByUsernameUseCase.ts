@@ -1,6 +1,5 @@
-import UserIdentificationDTO from "../../../../presentation/data-transfer-objects/users/UserIdentificationDTO";
-
+import UserEntity from "../../../../domain/entities/UserEntity";
 
 export default interface ISearchUsersByUsernameUseCase {
-    search(username: string): Promise<UserIdentificationDTO>;
+    search(username: string): Promise<UserEntity>;
 }

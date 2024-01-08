@@ -5,10 +5,10 @@ import IbcryptService from '../../../../../../src/adapter-interfaces/authenticat
 export default class MockBcryptService implements IbcryptService {
     // Mock implementation
     compareSync(password: string, hashedPassword: string): boolean {
-        return password === 'testpassword' && hashedPassword === '1HashedPassword';
+        return password === 'testPassword1' && hashedPassword === '1HashedPassword';
     }
 
     hashSync(password: string): string {
-        return 'mockHashedPassword';
+        return '1HashedPassword';
     }
 }

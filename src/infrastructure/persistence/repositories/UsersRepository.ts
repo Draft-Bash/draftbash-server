@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DatabaseConnection from '../DatabaseConnection';
 import IUserRepository from '../../../domain/repositories/IUsersRepository';
-import UserIdentificationDTO from '../../../presentation/data-transfer-objects/users/UserIdentificationDTO';
-import UserCredentialsDTO from '../../../presentation/data-transfer-objects/users/UserCredentialsDTO';
-import UserEntity from '../../../domain/value-objects/users/UserEntity';
+import UserEntity from '../../../domain/entities/UserEntity';
+import UserCredentials from '../../../domain/value-objects/users/UserCredentials';
 
 export default class UsersRepository implements IUserRepository {
     private db: DatabaseConnection;
@@ -12,16 +11,10 @@ export default class UsersRepository implements IUserRepository {
         this.db = new DatabaseConnection();
     }
 
-    async getUsersLikeUsername(username: string): Promise<UserIdentificationDTO[]> {
-        const users = await this.db.query(`SELECT * FROM users WHERE username ILIKE $1 LIMIT 10`, [`${username}%`]);
-        const usersDTO: UserIdentificationDTO[] = users.map((user: any) =>
-            Object.freeze({
-                userId: user.user_id,
-                username: user.username,
-                email: user.email,
-            }),
-        );
-        return usersDTO;
+    async getUsernamesLikeUsername(username: string): Promise<string[]> {
+        const users = await this.db.query(`SELECT username FROM users WHERE username ILIKE $1 LIMIT 10`, [`${username}%`]);
+        const userEntities: string[] = users.map((user: any) => user.username);
+        return userEntities;
     }
 
     async updateUserPassword(userId: number, password: string): Promise<void> {
@@ -38,51 +31,61 @@ export default class UsersRepository implements IUserRepository {
         if (user.length === 0) {
             return null;
         }
-
-        return new UserEntity({
-            userId: user[0].user_id,
-            username: user[0].username,
-            email: user[0].email,
-            password: user[0].password,
-        });
+        return new UserEntity(
+            user[0].user_id,
+            new UserCredentials({
+                username: user[0].username,
+                email: user[0].email,
+                password: user[0].password,
+            }),
+        );
     }
 
-    async getUserByEmail(email: string): Promise<UserIdentificationDTO | null> {
+    async getUserByEmail(email: string): Promise<UserEntity | null> {
         const user = await this.db.query(`SELECT * FROM users WHERE email = $1 LIMIT 1`, [email]);
         if (user.length === 0) {
             return null;
         }
-        return Object.freeze({
-            userId: user[0].user_id,
-            username: user[0].username,
-            email: user[0].email,
-        });
+        return new UserEntity(
+            user[0].user_id,
+            new UserCredentials({
+                username: user[0].username,
+                email: user[0].email,
+                password: user[0].password,
+            }),
+        );
     }
 
-    async getUserByUsername(username: string): Promise<UserIdentificationDTO | null> {
+    async getUserByUsername(username: string): Promise<UserEntity | null> {
         const user = await this.db.query(`SELECT * FROM users WHERE username = $1 LIMIT 1`, [username]);
         if (user.length === 0) {
             return null;
         }
 
-        return Object.freeze({
-            userId: user[0].user_id,
-            username: user[0].username,
-            email: user[0].email,
-        });
+        return new UserEntity(
+            user[0].user_id,
+            new UserCredentials({
+                username: user[0].username,
+                email: user[0].email,
+                password: user[0].password,
+            }),
+        );
     }
 
-    async insertUser(userCredentials: UserCredentialsDTO): Promise<UserIdentificationDTO> {
+    async insertUser(userCredentials: UserCredentials): Promise<UserEntity> {
         const user = await this.db.query(
             `INSERT INTO users (username, email, password) 
                 VALUES ($1, $2, $3)
                 RETURNING user_id, username, email`,
-            [userCredentials.username, userCredentials.email, userCredentials.password],
+            [userCredentials.getUsername(), userCredentials.getEmail(), userCredentials.getPassword()],
         );
-        return Object.freeze({
-            userId: user.user_id,
-            username: user.username,
-            email: user.email,
-        });
+        return new UserEntity(
+            user[0].user_id, 
+            new UserCredentials({
+                username: user[0].username, 
+                email: user[0].email, 
+                password: user[0].password
+            })
+        );
     }
 }

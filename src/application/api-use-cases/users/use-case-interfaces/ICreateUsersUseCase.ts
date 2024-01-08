@@ -1,5 +1,5 @@
-import UserCredentialsDTO from '../../../../presentation/data-transfer-objects/users/UserCredentialsDTO';
+import CreateUserRequest from '../../../../presentation/data-transfer-objects/users/CreateUserRequest';
 
 export default interface ICreateUsersUseCase {
-    create(userCredentials: UserCredentialsDTO): Promise<string>;
+    create(createUserRequest: CreateUserRequest): Promise<string>;
 }

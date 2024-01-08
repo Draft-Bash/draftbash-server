@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import UserCredentialsDTO from '../../../data-transfer-objects/users/UserCredentialsDTO';
 import ICreateUsersUseCase from '../../../../application/api-use-cases/users/use-case-interfaces/ICreateUsersUseCase';
 import UserUniqueViolationError from '../../../../domain/exceptions/users/UserAlreadyExistsError';
 import BadRequestError from '../../../../domain/exceptions/BadRequestError';
+import CreateUserRequest from '../../../data-transfer-objects/users/CreateUserRequest';
 
 // Receives HTTP request, calls use case, and sends HTTP response.
 export default class CreateUsersController {
@@ -14,8 +14,8 @@ export default class CreateUsersController {
 
     async createUser(req: Request, res: Response) {
         try {
-            const userCredentials: UserCredentialsDTO = req.body;
-            const userJwtAuthorizationToken: string = await this.createUsersUsecase.create(userCredentials);
+            const createUserRequest: CreateUserRequest = req.body;
+            const userJwtAuthorizationToken: string = await this.createUsersUsecase.create(createUserRequest);
             res.status(201).send(userJwtAuthorizationToken);
         } catch (error: unknown) {
             if (error instanceof Error) {

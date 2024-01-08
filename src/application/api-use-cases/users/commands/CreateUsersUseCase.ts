@@ -2,10 +2,10 @@ import IJWTtokenService from '../../../../adapter-interfaces/authentication/IJWT
 import UserUniqueViolationError from '../../../../domain/exceptions/users/UserAlreadyExistsError';
 import IUsersRepository from '../../../../domain/repositories/IUsersRepository';
 import IbcryptService from '../../../../adapter-interfaces/authentication/IbcryptService';
-import UserEntity from '../../../../domain/value-objects/users/UserEntity';
 import ICreateUsersUseCase from '../use-case-interfaces/ICreateUsersUseCase';
-import UserCredentialsDTO from '../../../../presentation/data-transfer-objects/users/UserCredentialsDTO';
-import UserIdentificationDTO from '../../../../presentation/data-transfer-objects/users/UserIdentificationDTO';
+import UserCredentials from '../../../../domain/value-objects/users/UserCredentials';
+import CreateUserRequest from '../../../../presentation/data-transfer-objects/users/CreateUserRequest';
+import UserEntity from '../../../../domain/entities/UserEntity';
 
 // Handles user registration business logic.
 export default class CreateUsersUseCase implements ICreateUsersUseCase {
@@ -30,32 +30,32 @@ export default class CreateUsersUseCase implements ICreateUsersUseCase {
     /**
      * Creates a new user with the provided credentials.
      * @async
-     * @param {UserCredentialsDTO} credentials - User credentials for registration.
+     * @param {CreateUserRequest} credentials - User credentials for registration.
      * @returns {Promise<string>} A JWT token representing the newly created user.
      * @throws {UserAlreadyExistsError} Thrown when attempting to register a user with an existing username or email.
      * @throws {BadRequestError} Thrown by UserEntity when the credentials fail basic validation, such as password length.
      */
-    async create(credentials: UserCredentialsDTO): Promise<string> {
-        // Creates a new user entity, which applies basic validation checks on the credentials, such as username length.
-        const user: UserEntity = new UserEntity(credentials);
-
+    async create(createUserRequest: CreateUserRequest): Promise<string> {
         // Checks if the username or email already exists in the database.
-        const isUsernameUnique: boolean = (await this.userRepository.getUserByUsername(credentials.username)) == null;
-        const isEmailUnique: boolean = (await this.userRepository.getUserByEmail(credentials.email)) == null;
+        const isUsernameUnique: boolean = (await this.userRepository.getUserByUsername(createUserRequest.username)) == null;
+        const isEmailUnique: boolean = (await this.userRepository.getUserByEmail(createUserRequest.email)) == null;
 
         if (!isUsernameUnique || !isEmailUnique) {
             throw new UserUniqueViolationError(isUsernameUnique, isEmailUnique, 'UserUniqueViolationError');
         }
 
         // Hashes the user's password with bcrypt.
-        const bcryptPassword: string = this.bcryptService.hashSync(user.getPassword());
+        const bcryptPassword: string = this.bcryptService.hashSync(createUserRequest.password);
 
-        // Inserts the user into the database. That user is then returned back.
-        const createdUser: UserIdentificationDTO = await this.userRepository.insertUser({
-            username: user.getUsername(),
-            email: user.getEmail(),
+        // Creates a new user credentials object, which applies basic validation checks on the credentials.
+        const userCredentials = new UserCredentials({
+            username: createUserRequest.username,
+            email: createUserRequest.email,
             password: bcryptPassword,
         });
+
+        // Inserts the user into the database. That user is then returned back.
+        const createdUser: UserEntity = await this.userRepository.insertUser(userCredentials);
 
         /* 
         Signs and returns a signed JWT token with an expiration date. 

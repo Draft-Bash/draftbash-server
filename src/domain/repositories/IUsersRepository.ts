@@ -1,11 +1,10 @@
-import UserEntity from '../value-objects/users/UserEntity';
-import UserCredentialsDTO from '../../presentation/data-transfer-objects/users/UserCredentialsDTO';
-import UserIdentificationDTO from '../../presentation/data-transfer-objects/users/UserIdentificationDTO';
+import UserEntity from '../entities/UserEntity';
+import UserCredentials from '../value-objects/users/UserCredentials';
 
 export default interface IUserRepository {
-    getUsersLikeUsername(username: string): Promise<UserIdentificationDTO[]>;
-    insertUser(userCredentials: UserCredentialsDTO): Promise<UserIdentificationDTO>;
-    getUserByUsername(username: string): Promise<UserIdentificationDTO | null>;
-    getUserByEmail(username: string): Promise<UserIdentificationDTO | null>;
+    getUsernamesLikeUsername(username: string): Promise<string[]>;
+    insertUser(userCredentials: UserCredentials): Promise<UserEntity>;
+    getUserByUsername(username: string): Promise<UserEntity | null>;
+    getUserByEmail(username: string): Promise<UserEntity | null>;
     getUserByUsernameOrEmail(usernameOrEmail: string): Promise<UserEntity | null>;
 }
